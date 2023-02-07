@@ -1,5 +1,5 @@
 name: "github-actions-docs"
-description: "Greet someone"
+description: "Generate GitHub action docs for action"
 inputs:
   ACTION_FILE_NAME:
     description: "The name of the file to be processed"
