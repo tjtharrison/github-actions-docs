@@ -12,7 +12,7 @@ inputs:
   OUTPUT_MODE:
     description: "The output mode, [update/overwrite]. Update will be inserted after a line containing <!-- INSERT_ACTION_DOCS -->, overwrite will overwrite the whole file"
     required: true
-    default: "overwrite"
+    default: "update"
 runs:
   using: "composite"
   steps:
