@@ -17,4 +17,4 @@ jobs:
       - name: Generate action docs
         uses: tjtharrison/github-actions-docs@initial_commit
         with:
-          UPDATE_MODE: "update"
+          UPDATE_MODE: update
