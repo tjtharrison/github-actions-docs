@@ -12,6 +12,8 @@ jobs:
     name: Document GitHub action
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
       - name: Generate action docs
         uses: tjtharrison/github-actions-docs@initial_commit
         with:
