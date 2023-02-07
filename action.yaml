@@ -1,0 +1,33 @@
+name: "github-actions-docs"
+description: "Greet someone"
+inputs:
+  ACTION_FILE_NAME:
+    description: "The name of the file to be processed"
+    required: true
+    default: "action.yaml"
+  OUTPUT_FILE_NAME:
+    description: "The file that the output report will be written to"
+    required: true
+    default: "README.md"
+  OUTPUT_MODE:
+    description: "The output mode, [update/overwrite]. Update will be inserted after a line containing <!-- INSERT_ACTION_DOCS -->, overwrite will overwrite the whole file"
+    required: true
+    default: "overwrite"
+runs:
+  using: "composite"
+  steps:
+    - name: "Validate OUTPUT_MODE"
+      shell: bash
+      run: |
+        python3 ${{ github.action_path}}/mode_validate.py ${{ inputs.OUTPUT_MODE }}
+    - name: "Generate docs"
+      shell: bash
+      env:
+        ACTION_FILE_NAME: ${{ inputs.ACTION_FILE_NAME }}
+        OUTPUT_FILE_NAME: ${{ inputs.OUTPUT_FILE_NAME }}
+        OUTPUT_MODE: ${{ inputs.OUTPUT_MODE }}
+      run: |
+        python3 ${{ github.action_path}}/main.py
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Updated github-action-docs
