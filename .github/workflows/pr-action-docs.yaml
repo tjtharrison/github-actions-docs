@@ -8,6 +8,7 @@ on:
 
 jobs:
   document-github-action:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     name: Document GitHub action
     steps:
