@@ -13,6 +13,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Generate action docs
-        uses: tjtharrison/github-actions-docs@initial_commit
-        with:
-          OUTPUT_MODE: update
+        uses: tjtharrison/github-actions-docs@1.0
