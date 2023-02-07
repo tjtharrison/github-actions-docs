@@ -16,4 +16,4 @@ jobs:
       - name: Generate action docs
         uses: tjtharrison/github-actions-docs@1.0
         with:
-          ACTION_FILE_NAME: TEST.yaml
+          OUTPUT_FILE_NAME: TEST.md
