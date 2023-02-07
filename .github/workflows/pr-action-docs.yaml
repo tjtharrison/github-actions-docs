@@ -1,0 +1,18 @@
+on:
+  label:
+    types:
+      - created
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  document-github-action:
+    runs-on: ubuntu-latest
+    name: Document GitHub action
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate action docs
+        uses: tjtharrison/github-actions-docs@initial_commit
+        with:
+          OUTPUT_MODE: update
