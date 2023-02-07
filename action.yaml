@@ -4,14 +4,17 @@ inputs:
   ACTION_FILE_NAME:
     description: "The name of the file to be processed"
     required: true
+    type: string
     default: "action.yaml"
   OUTPUT_FILE_NAME:
     description: "The file that the output report will be written to"
     required: true
+    type: string
     default: "README.md"
   OUTPUT_MODE:
     description: "The output mode, [update/overwrite]. Update will be inserted after a line containing <!-- INSERT_ACTION_DOCS -->, overwrite will overwrite the whole file"
     required: true
+    type: string
     default: "update"
 runs:
   using: "composite"
