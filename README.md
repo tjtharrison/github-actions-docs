@@ -8,15 +8,8 @@ Github Action to generate github-actions docs for a composite action.
 
 # Local development
 
-To develop locally, install requirements and create a .env file in the directory root with the following contents:
+To develop locally, install requirements to ensure the .env file is used in the project root:
 
 ```
 pip3 install -r requirements.txt
-```
-
-.env:
-```
-ACTION_FILE_NAME="./example/action.yaml"
-OUTPUT_FILE_NAME="./example/README.md"
-OUTPUT_MODE="update"
 ```
