@@ -95,9 +95,9 @@ def main():
             found_end = False
 
             for source_line in original_file_contents:
-                if "<!-- BEGIN_ACTION_DOCS -->" in source_line:
+                if source_line.startswith("<!-- BEGIN_ACTION_DOCS -->"):
                     found_start = True
-                elif "<!-- END_ACTION_DOCS -->" in source_line:
+                elif source_line.startswith("<!-- END_ACTION_DOCS -->"):
                     found_end = True
 
             if found_start and found_end:
@@ -105,11 +105,11 @@ def main():
                 temp_original_file_contents = []
                 do_write = True
                 for source_line in original_file_contents:
-                    if "<!-- BEGIN_ACTION_DOCS -->" in source_line:
+                    if source_line.startswith("<!-- BEGIN_ACTION_DOCS -->"):
                         print("Start found, deleting")
                         temp_original_file_contents.append(source_line)
                         do_write = False
-                    elif "<!-- END_ACTION_DOCS -->" in source_line:
+                    elif source_line.startswith("<!-- END_ACTION_DOCS -->"):
                         print("End found, continuing write")
                         temp_original_file_contents.append(source_line)
                         do_write = True
@@ -123,8 +123,8 @@ def main():
 
             for line in original_file_contents:
                 markdown_output_file.write(line)
-                if "<!-- BEGIN_ACTION_DOCS -->" in line:
-                    print("INSERT_ACTION_DOCS detected, writing action-docs")
+                if line.startswith("<!-- BEGIN_ACTION_DOCS -->"):
+                    print("BEGIN_ACTION_DOCS detected, writing action-docs")
                     for output_item in output_list:
                         if output_item.startswith("#"):
                             print("")
