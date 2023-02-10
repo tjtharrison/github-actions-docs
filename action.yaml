@@ -15,7 +15,7 @@ inputs:
     type: string
     default: "README.md"
   OUTPUT_MODE:
-    description: "The output mode, [update/overwrite]. Update will be inserted after a line containing <!-- BEGIN_ACTION_DOCS -->, overwrite will overwrite the whole file"
+    description: "The output mode, [update/overwrite]. Update will be inserted after a line containing `<!-- BEGIN_ACTION_DOCS -->`, overwrite will overwrite the whole file"
     required: true
     type: string
     default: "update"
