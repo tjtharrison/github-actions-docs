@@ -2,7 +2,7 @@ on:
   label:
     types:
       - created
-  push:
+  pull_request:
     branches:
       - main
 
@@ -14,4 +14,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Generate action docs
-        uses: tjtharrison/github-actions-docs
+        uses: ./
