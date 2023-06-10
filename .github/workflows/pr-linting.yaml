@@ -1,0 +1,53 @@
+name: Linting
+on:
+  pull_request:
+    branches:
+        - "main"
+    paths:
+      - "**.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  code-linting:
+    name: Code Linting
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+      - name: "Code format"
+        run: |
+          pip3 install isort pylint black
+          find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
+      - name: "Commit re-linted files"
+        uses: "stefanzweifel/git-auto-commit-action@v4"
+        with:
+          commit_message: "Linted and formatted files"
+      - name: "Code linting"
+        run: |
+          pip3 install -r requirements.txt
+          make lint
+  docstring-linting:
+    name: Docstring Linting
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v3"
+      - name: "Install requirements"
+        run: |
+          pip3 install darglint pydocstyle
+      - name: "Docstring linting"
+        run: |
+          darglint_results=$(find . -name "*.py" -not -path "./tests/*" -exec darglint {} \;)
+          pydocstyle_results=$(find . -name "*.py" -not -path "./tests/*" -exec pydocstyle {} \;)
+          
+          if [[ -z "$darglint_results" ]] && [[ -z "$pydocstyle_results" ]]; then
+            echo "All docstrings are valid"
+          else
+            echo "Invalid docstrings found:"
+            echo "$darglint_results"
+            echo "$pydocstyle_results"
+            exit 1
+          fi
