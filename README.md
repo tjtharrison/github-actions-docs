@@ -14,11 +14,9 @@ Before using the action, if you are using `update` OUTPUT_MODE (To inject genera
 <!-- BEGIN_ACTION_DOCS -->
 
 # github-actions-docs
-
 Generate GitHub action docs for action
 
 # inputs
-
 | Title | Required | Type | Description |
 |-----|-----|-----|-----|
 | ACTION_FILE_NAME | True | string |The name of the file to be processed |
