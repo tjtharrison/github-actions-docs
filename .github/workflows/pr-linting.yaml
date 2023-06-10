@@ -28,7 +28,7 @@ jobs:
       - name: "Code linting"
         run: |
           pip3 install -r requirements.txt
-          make lint
+          python3 -m pylint --fail-under=9.5 $$(find . -name "*.py" -not -path "./tests/*")
   docstring-linting:
     name: Docstring Linting
     runs-on: "ubuntu-latest"

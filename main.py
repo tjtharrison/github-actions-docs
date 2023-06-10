@@ -1,8 +1,7 @@
 """Generate action docs."""
-import logging
 import os
 import sys
-
+import logging
 import yaml
 
 # Configure logging
@@ -33,19 +32,26 @@ def open_action_file(action_file):
     """
     Open the action file and return the contents.
 
-        Args:
-            action_file_name: Name of the action file
+    Args:
+        action_file: Name of the action file
 
-        Returns:
-            action_file_contents: Contents of the action file
+    Raises:
+        YAMLError: If there is an issue with the action file
+        FileNotFoundError: If the action file is not found
+
+    Returns:
+        action_file_contents: Contents of the action file
     """
-    with open(action_file, "r", encoding="UTF-8") as stream:
-        logging.info("Loading %s", os.environ.get("ACTION_FILE_NAME"))
-        try:
+    try:
+        with open(action_file, "r", encoding="UTF-8") as stream:
+            logging.info("Loading %s", os.environ.get("ACTION_FILE_NAME"))
             action_contents = yaml.safe_load(stream)
-        except yaml.YAMLError as yaml_error_message:
-            logging.info(yaml_error_message)
-            raise yaml.YAMLError from yaml_error_message
+    except FileNotFoundError as file_error_message:
+        logging.info(file_error_message)
+        raise FileNotFoundError from file_error_message
+    except yaml.YAMLError as yaml_error_message:
+                logging.info(yaml_error_message)
+                raise yaml.YAMLError from yaml_error_message
 
     return action_contents
 
@@ -74,9 +80,7 @@ def process_action_inputs(action_contents, output_list):
                     input_type = ""
 
                 try:
-                    input_description = action_contents["inputs"][action_input][
-                        "description"
-                    ]
+                    input_description = action_contents["inputs"][action_input]["description"]
                 except KeyError:
                     input_description = ""
 
@@ -95,7 +99,6 @@ def process_action_inputs(action_contents, output_list):
         logging.info("No inputs provided")
 
     return output_list
-
 
 def process_action_outputs(action_contents, output_list):
     """
@@ -152,12 +155,17 @@ def main():
         logging.info("Some error occurred while opening the action file:")
         logging.info(str(yaml_error_message))
         sys.exit(1)
+    except FileNotFoundError as file_error_message:
+        logging.info("Some error occurred while opening the action file:")
+        logging.info(str(file_error_message))
+        sys.exit(1)
 
     output_list = []
 
     logging.info("Writing action title")
     output_list.append("# " + action_contents["name"])
     output_list.append(action_contents["description"])
+
 
     # Handle inputs
     try:
@@ -170,6 +178,7 @@ def main():
         output_list = process_action_outputs(action_contents, output_list)
     except KeyError:
         logging.info("No outputs provided")
+
 
     # Handle modes
     logging.info("Writing output")
@@ -211,12 +220,11 @@ def main():
                     elif do_write is True:
                         temp_original_file_contents.append(source_line)
             else:
-                logging.info(
-                    "Required BEGIN/END lines not detected, please see documentation"
-                )
+                logging.info("Required BEGIN/END lines not detected, please see documentation")
                 sys.exit(1)
 
             original_file_contents = list.copy(temp_original_file_contents)
+
 
             for line in original_file_contents:
                 markdown_output_file.write(line)
@@ -239,6 +247,7 @@ def main():
                 markdown_output_file.write(output_item)
                 markdown_output_file.write("\n")
 
+    return True
 
 if __name__ == "__main__":
     main()
