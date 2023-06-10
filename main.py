@@ -1,7 +1,8 @@
 """Generate action docs."""
+import logging
 import os
 import sys
-import logging
+
 import yaml
 
 # Configure logging
@@ -50,8 +51,8 @@ def open_action_file(action_file):
         logging.info(file_error_message)
         raise FileNotFoundError from file_error_message
     except yaml.YAMLError as yaml_error_message:
-                logging.info(yaml_error_message)
-                raise yaml.YAMLError from yaml_error_message
+        logging.info(yaml_error_message)
+        raise yaml.YAMLError from yaml_error_message
 
     return action_contents
 
@@ -80,7 +81,9 @@ def process_action_inputs(action_contents, output_list):
                     input_type = ""
 
                 try:
-                    input_description = action_contents["inputs"][action_input]["description"]
+                    input_description = action_contents["inputs"][action_input][
+                        "description"
+                    ]
                 except KeyError:
                     input_description = ""
 
@@ -99,6 +102,7 @@ def process_action_inputs(action_contents, output_list):
         logging.info("No inputs provided")
 
     return output_list
+
 
 def process_action_outputs(action_contents, output_list):
     """
@@ -166,7 +170,6 @@ def main():
     output_list.append("# " + action_contents["name"])
     output_list.append(action_contents["description"])
 
-
     # Handle inputs
     try:
         output_list = process_action_inputs(action_contents, output_list)
@@ -178,7 +181,6 @@ def main():
         output_list = process_action_outputs(action_contents, output_list)
     except KeyError:
         logging.info("No outputs provided")
-
 
     # Handle modes
     logging.info("Writing output")
@@ -220,11 +222,12 @@ def main():
                     elif do_write is True:
                         temp_original_file_contents.append(source_line)
             else:
-                logging.info("Required BEGIN/END lines not detected, please see documentation")
+                logging.info(
+                    "Required BEGIN/END lines not detected, please see documentation"
+                )
                 sys.exit(1)
 
             original_file_contents = list.copy(temp_original_file_contents)
-
 
             for line in original_file_contents:
                 markdown_output_file.write(line)
@@ -248,6 +251,7 @@ def main():
                 markdown_output_file.write("\n")
 
     return True
+
 
 if __name__ == "__main__":
     main()
