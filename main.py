@@ -94,7 +94,7 @@ def process_action_inputs(action_contents, output_list):
                     + str(action_contents["inputs"][action_input]["required"])
                     + " | "
                     + str(input_type)
-                    + " |"
+                    + " | "
                     + str(input_description)
                     + " |"
                 )
