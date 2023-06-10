@@ -18,12 +18,15 @@ def main(args):
         print("Requires input")
     else:
         if sys.argv[1] not in accepted_modes:
-            print("Provided value " + str(sys.argv[1]) + " not in " + str(accepted_modes))
+            print(
+                "Provided value " + str(sys.argv[1]) + " not in " + str(accepted_modes)
+            )
             sys.exit(1)
         else:
             print(sys.argv[1] + " mode set")
 
     return True
+
 
 if __name__ == "__main__":
     main(sys.argv)
