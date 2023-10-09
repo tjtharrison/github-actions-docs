@@ -22,7 +22,7 @@ jobs:
           pip3 install isort pylint black
           find . -name "*.py" -not -path "./tests/*" -exec python3 -m isort {} \; -exec python3 -m black {} \;
       - name: "Commit re-linted files"
-        uses: "stefanzweifel/git-auto-commit-action@v4"
+        uses: "stefanzweifel/git-auto-commit-action@v5"
         with:
           commit_message: "Linted and formatted files"
       - name: "Code linting"
