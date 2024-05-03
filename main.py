@@ -72,13 +72,20 @@ def process_action_inputs(action_contents, output_list):
         if len(action_contents["inputs"]) > 0:
             logging.info("Processing action inputs")
             output_list.append("# inputs")
-            output_list.append("| Title | Required | Type | Description |")
-            output_list.append("|-----|-----|-----|-----|")
+            output_list.append("| Title | Required | Type | Default| Description |")
+            output_list.append("|-----|-----|-----|-----|-----|")
             for action_input in action_contents["inputs"]:
                 try:
                     input_type = action_contents["inputs"][action_input]["type"]
                 except KeyError:
                     input_type = ""
+
+                try:
+                    input_default = action_contents["inputs"][action_input][
+                        "default"
+                    ]
+                except KeyError:
+                    input_default = ""
 
                 try:
                     input_description = action_contents["inputs"][action_input][
@@ -94,6 +101,8 @@ def process_action_inputs(action_contents, output_list):
                     + str(action_contents["inputs"][action_input]["required"])
                     + " | "
                     + str(input_type)
+                    + " | "
+                    + ("`" + str(input_default) + "`" if input_default else "")
                     + " | "
                     + str(input_description)
                     + " |"
@@ -144,7 +153,6 @@ def process_action_outputs(action_contents, output_list):
         logging.info("No outputs provided")
 
     return output_list
-
 
 def main():
     """

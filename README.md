@@ -31,3 +31,12 @@ To develop locally, install requirements to ensure the .env file is used in the 
 ```
 pip3 install -r requirements.txt
 ```
+
+# Permissions
+
+This action requires the following permissions:
+
+```
+permissions:
+  contents: write
+```
