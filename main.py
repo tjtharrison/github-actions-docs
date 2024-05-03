@@ -102,7 +102,7 @@ def process_action_inputs(action_contents, output_list):
                     + " | "
                     + str(input_type)
                     + " | "
-                    + f"`{str(action_contents['inputs'][action_input]['default'])}`"
+                    + ("`" + str(input_default) + "`" if input_default else "")
                     + " | "
                     + str(input_description)
                     + " |"
