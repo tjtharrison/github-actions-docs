@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Get token from Github App
         id: app_token
-        uses: getsentry/action-github-app-token@v2
+        uses: getsentry/action-github-app-token@v3
         with:
           app_id: ${{ secrets.PR_APPROVAL_ID }}
           private_key: ${{ secrets.PR_APPROVAL_PEM }}
