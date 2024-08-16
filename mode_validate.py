@@ -1,4 +1,5 @@
 """Process provided mode and verify against accepted modes."""
+
 import sys
 
 
