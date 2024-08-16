@@ -172,7 +172,8 @@ def main():
 
     # Handle inputs
     try:
-        output_list = process_action_inputs(action_contents, output_list)
+        input_list = process_action_inputs(action_contents, output_list)
+        print(input_list)
     except KeyError:
         logging.info("No inputs provided")
 
