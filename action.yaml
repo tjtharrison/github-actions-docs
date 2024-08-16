@@ -34,6 +34,6 @@ runs:
         OUTPUT_MODE: ${{ inputs.OUTPUT_MODE }}
       run: |
         python3 ${{ github.action_path}}/main.py
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Updated github-action-docs
