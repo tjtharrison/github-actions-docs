@@ -1,4 +1,5 @@
 """Generate action docs."""
+
 import logging
 import os
 import sys
