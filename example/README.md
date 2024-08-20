@@ -4,12 +4,18 @@ Some dummy text before action-docs have been written
 
 <!-- BEGIN_ACTION_DOCS -->
 
-# github-actions-cleanup-action-cache
-GitHub action to cleanup actions cache from a repository
+# Hello World
+Greet someone
 
 # inputs
-| Title | Required | Type | Description |
-|-----|-----|-----|-----|
+| Title | Required | Type | Default| Description |
+|-----|-----|-----|-----|-----|
+| who-to-greet | True |  | `World` | Who to greet |
+
+# outputs
+| Title | Description | Value |
+|-----|-----|-----|
+|random-number | Random number |  `${{ steps.random-number-generator.outputs.random-number }}` | 
 <!-- END_ACTION_DOCS -->
 
 # Local development
