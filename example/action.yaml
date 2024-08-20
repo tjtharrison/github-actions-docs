@@ -1,23 +1,59 @@
-name: 'Hello World'
-description: 'Greet someone'
+name: "github-actions-cleanup-action-cache"
+description: "GitHub action to cleanup actions cache from a repository"
+branding:
+  color: "green"
+  icon: "book-open"
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  DRY_RUN:
+    description: "Whether to run the action in dry-run mode <true|false>"
+    type: string
+    default: "true"
+  CACHE_KEY:
+    description: "The specific cache key to delete"
+    type: string
+    default: ""
+  GIT_REF:
+    description: "The git ref to delete the cache for"
+    type: string
+    default: ""
+  GITHUB_TOKEN:
+    description: "The GitHub token to use for the API requests"
+    type: string
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - name: "Cleanup deployments"
       shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
-      shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
-      shell: bash
-    - run: goodbye.sh
-      shell: bash
+      env:
+        CACHE_KEY: ${{ inputs.CACHE_KEY }}
+        GIT_REF: ${{ inputs.GIT_REF }}
+        DRY_RUN: ${{ inputs.DRY_RUN }}
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+      run: |
+        if [[ $CACHE_KEY != "" ]]; then
+          echo "Deleting cache for key: $CACHE_KEY"
+          if [[ $DRY_RUN == "false" ]]; then
+            echo "Deleting cache for key: $CACHE_KEY"
+            gh cache delete $CACHE_KEY
+          else
+            echo "Dry-run mode enabled, skipping cache deletion"
+          fi
+        elif [[ $GIT_REF != "" ]]; then
+          echo "Deleting cache for git ref: $GIT_REF"
+          cache_by_ref=$(gh cache list --ref $GIT_REF)
+          echo "Cache keys for git ref: $cache_by_ref"
+          IFS=$'\n'
+          for key in $cache_by_ref; do
+            cache_key=$(echo $key | awk {'print $2'})
+            if [[ $DRY_RUN == "false" ]]; then
+              echo "Deleting cache for key: $cache_key"
+              gh cache delete $cache_key
+            else
+              echo "Dry-run mode enabled, skipping cache deletion for key: $cache_key"
+            fi
+          done
+        else
+          echo "No cache key or git ref provided, skipping cache deletion"
+        fi
+        
