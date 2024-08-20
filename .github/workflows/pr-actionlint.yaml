@@ -6,14 +6,15 @@ on:
     paths:
       - ".github/workflows/**"
 
-permissions: read-all
+permissions: 
+  contents: read
 
 jobs:
   actionlint:
     name: Action Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download actionlint
         id: get_actionlint
         run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
