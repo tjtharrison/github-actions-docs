@@ -4,6 +4,11 @@ branding:
   color: "green"
   icon: "book-open"
 inputs:
+  TOKEN:
+    description: "GitHub token to use to commit the documentation changes. Use a PAT or a GH App token if your workflow triggers other workflows."
+    type: string
+    required: false
+    default: ${{ github.token }}
   ACTION_FILE_NAME:
     description: "The name of the file to be processed"
     required: true
@@ -37,3 +42,4 @@ runs:
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Updated github-action-docs
+        token: ${{ inputs.TOKEN }}
