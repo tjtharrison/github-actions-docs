@@ -82,9 +82,7 @@ def process_action_inputs(action_contents, output_list):
                     input_type = ""
 
                 try:
-                    input_default = action_contents["inputs"][action_input][
-                        "default"
-                    ]
+                    input_default = action_contents["inputs"][action_input]["default"]
                 except KeyError:
                     input_default = ""
 
@@ -95,11 +93,16 @@ def process_action_inputs(action_contents, output_list):
                 except KeyError:
                     input_description = ""
 
+                try:
+                    input_required = action_contents["inputs"][action_input]["required"]
+                except KeyError:
+                    input_required = "False"
+
                 output_list.append(
                     "| "
                     + action_input
                     + " | "
-                    + str(action_contents["inputs"][action_input]["required"])
+                    + str(input_required)
                     + " | "
                     + str(input_type)
                     + " | "
@@ -154,6 +157,7 @@ def process_action_outputs(action_contents, output_list):
         logging.info("No outputs provided")
 
     return output_list
+
 
 def main():
     """
