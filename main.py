@@ -95,11 +95,18 @@ def process_action_inputs(action_contents, output_list):
                 except KeyError:
                     input_description = ""
 
+                try:
+                    input_required = action_contents["inputs"][action_input][
+                        "required"
+                    ]
+                except KeyError:
+                    input_required = "False"
+
                 output_list.append(
                     "| "
                     + action_input
                     + " | "
-                    + str(action_contents["inputs"][action_input]["required"])
+                    + str(input_required)
                     + " | "
                     + str(input_type)
                     + " | "
