@@ -20,4 +20,5 @@ jobs:
           cd src
           pip3 install -r requirements.txt
           pip3 install -r requirements-dev.txt
+          pip3 install -r requirements-ci.txt
           python3 -m pytest
