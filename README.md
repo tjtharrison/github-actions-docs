@@ -94,4 +94,11 @@ To develop locally, install requirements to ensure the .env file is used in the 
 
 ```
 pip3 install -r requirements.txt
+pip3 install -r requirements-dev.txt
+```
+
+Then run the action locally:
+
+```bash
+python3 main.py
 ```
