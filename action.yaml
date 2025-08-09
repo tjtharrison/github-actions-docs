@@ -25,7 +25,7 @@ runs:
     - name: "Validate OUTPUT_MODE"
       shell: bash
       run: |
-        python3 ${{ github.action_path}}/mode_validate.py ${{ inputs.OUTPUT_MODE }}
+        python3 ${{ github.action_path}}/src/mode_validate.py ${{ inputs.OUTPUT_MODE }}
     - name: "Generate docs"
       shell: bash
       env:
@@ -33,7 +33,7 @@ runs:
         OUTPUT_FILE_NAME: ${{ inputs.OUTPUT_FILE_NAME }}
         OUTPUT_MODE: ${{ inputs.OUTPUT_MODE }}
       run: |
-        python3 ${{ github.action_path}}/main.py
+        python3 ${{ github.action_path}}/src/main.py
     - uses: stefanzweifel/git-auto-commit-action@v6
       with:
         commit_message: Updated github-action-docs

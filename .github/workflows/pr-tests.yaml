@@ -1,0 +1,23 @@
+name: Unit tests
+on:
+  pull_request:
+    branches:
+        - "main"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Checkout code"
+        uses: "actions/checkout@v4"
+      - name: "Unit tests"
+        run: |
+          cd src
+          pip3 install -r requirements.txt
+          pip3 install -r requirements-dev.txt
+          python3 -m pytest

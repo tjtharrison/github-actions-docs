@@ -153,6 +153,7 @@ def process_action_outputs(action_contents, output_list):
                     + "`"
                     + " | "
                 )
+    except KeyError:
         logging.info("No outputs provided")
 
     return output_list
@@ -370,10 +371,12 @@ def main():
         logging.info("Some error occurred while opening the action file:")
         logging.info(str(yaml_error_message))
         sys.exit(1)
+        return False  # This line never executes in normal flow, but helps with tests
     except FileNotFoundError as file_error_message:
         logging.info("Some error occurred while opening the action file:")
         logging.info(str(file_error_message))
         sys.exit(1)
+        return False  # This line never executes in normal flow, but helps with tests
 
     # Generate documentation content
     output_list = generate_documentation_content(action_contents)
@@ -387,6 +390,7 @@ def main():
     except (FileNotFoundError, IOError) as file_error:
         logging.error("Error writing documentation file: %s", file_error)
         sys.exit(1)
+        return False  # This line never executes in normal flow, but helps with tests
 
     return True
 
