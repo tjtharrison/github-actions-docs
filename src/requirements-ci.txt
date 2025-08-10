@@ -1,1 +1,3 @@
 pytest == 8.4.1
+darglint == 1.8.1
+pydocstyle == 6.3.0

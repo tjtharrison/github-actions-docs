@@ -28,8 +28,6 @@ jobs:
           commit_message: "Linted and formatted files"
       - name: "Code linting"
         run: |
-          pip3 install -r requirements.txt
-          pip3 install -r requirements-dev.txt
           make lint
   docstring-linting:
     name: Docstring Linting
@@ -37,20 +35,6 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: "actions/checkout@v4"
-      - name: "Install requirements"
-        run: |
-          pip3 install darglint pydocstyle
       - name: "Docstring linting"
         run: |
-          cd src
-          darglint_results=$(find . -name "*.py" -not -name "test_*" -exec darglint {} \;)
-          pydocstyle_results=$(find . -name "*.py" -not -name "test_*" -exec pydocstyle {} \;)
-          
-          if [[ -z "$darglint_results" ]] && [[ -z "$pydocstyle_results" ]]; then
-            echo "All docstrings are valid"
-          else
-            echo "Invalid docstrings found:"
-            echo "$darglint_results"
-            echo "$pydocstyle_results"
-            exit 1
-          fi
+          make lint-docstring
