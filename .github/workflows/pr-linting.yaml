@@ -28,7 +28,6 @@ jobs:
           commit_message: "Linted and formatted files"
       - name: "Code linting"
         run: |
-          cd src
           pip3 install -r requirements.txt
           pip3 install -r requirements-dev.txt
           make lint

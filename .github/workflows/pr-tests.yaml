@@ -17,8 +17,7 @@ jobs:
         uses: "actions/checkout@v4"
       - name: "Unit tests"
         run: |
-          cd src
-          pip3 install -r requirements.txt
-          pip3 install -r requirements-dev.txt
-          pip3 install -r requirements-ci.txt
-          python3 -m pytest
+          pip3 install -r src/requirements.txt
+          pip3 install -r src/requirements-dev.txt
+          pip3 install -r src/requirements-ci.txt
+          make test
