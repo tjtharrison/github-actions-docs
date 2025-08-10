@@ -153,6 +153,7 @@ def process_action_outputs(action_contents, output_list):
                     + "`"
                     + " | "
                 )
+    except KeyError:
         logging.info("No outputs provided")
 
     return output_list
@@ -192,7 +193,7 @@ def remove_content_between_markers(file_contents):
     """
     result = []
     include_line = True
-    
+
     for line in file_contents:
         if line.startswith("<!-- BEGIN_ACTION_DOCS -->"):
             logging.info("Start found, deleting")
@@ -204,7 +205,7 @@ def remove_content_between_markers(file_contents):
             include_line = True
         elif include_line:
             result.append(line)
-    
+
     return result
 
 
@@ -232,12 +233,9 @@ def write_output_file_update_mode(output_file_name, original_contents, output_li
         output_file_name: Path to output file
         original_contents: Original file contents as list of lines
         output_list: Documentation content to insert
-
-    Raises:
-        SystemExit: If required BEGIN/END markers are not found
     """
     found_start, found_end = find_action_docs_markers(original_contents)
-    
+
     if not (found_start and found_end):
         logging.info("Required BEGIN/END lines not detected, please see documentation")
         sys.exit(1)
@@ -247,7 +245,7 @@ def write_output_file_update_mode(output_file_name, original_contents, output_li
 
     with open(output_file_name, "w", encoding="UTF-8") as markdown_output_file:
         logging.info("Output file opened")
-        
+
         for line in cleaned_contents:
             markdown_output_file.write(line)
             if line.startswith("<!-- BEGIN_ACTION_DOCS -->"):
@@ -286,11 +284,11 @@ def read_original_file(output_file_name):
         with open(output_file_name, "r", encoding="UTF-8") as original_file:
             logging.info("Original file read")
             return original_file.readlines()
-    except FileNotFoundError as e:
-        logging.error("Output file not found: %s", output_file_name)
+    except FileNotFoundError as error_message:
+        logging.error("Output file not found: %s (%s)", output_file_name, error_message)
         raise
-    except IOError as e:
-        logging.error("Error reading output file: %s", e)
+    except IOError as error_message:
+        logging.error("Error reading output file: %s", error_message)
         raise
 
 
@@ -333,14 +331,9 @@ def write_documentation_file(output_file_name, output_mode, output_list):
         output_file_name: Path to output file
         output_mode: Mode for writing ('update' or 'overwrite')
         output_list: Documentation content to write
-
-    Raises:
-        SystemExit: If there are issues with update mode markers
-        FileNotFoundError: If output file doesn't exist in update mode
-        IOError: If there are file writing errors
     """
     logging.info("Writing output")
-    
+
     if output_mode == "update":
         logging.info("Update mode detected, updating original file")
         logging.info("Looking for required BEGIN/END lines")
@@ -359,9 +352,6 @@ def main():
 
     Returns:
         True
-
-    Raises:
-        SystemExit: If there are errors in processing or file operations
     """
     # Load action file
     try:
@@ -370,10 +360,14 @@ def main():
         logging.info("Some error occurred while opening the action file:")
         logging.info(str(yaml_error_message))
         sys.exit(1)
+        # This line never executes in normal flow, but helps with tests
+        return False  # pylint: disable=unreachable
     except FileNotFoundError as file_error_message:
         logging.info("Some error occurred while opening the action file:")
         logging.info(str(file_error_message))
         sys.exit(1)
+        # This line never executes in normal flow, but helps with tests
+        return False  # pylint: disable=unreachable
 
     # Generate documentation content
     output_list = generate_documentation_content(action_contents)
@@ -381,12 +375,14 @@ def main():
     # Write documentation to output file
     output_file_name = os.environ.get("OUTPUT_FILE_NAME")
     output_mode = os.environ.get("OUTPUT_MODE")
-    
+
     try:
         write_documentation_file(output_file_name, output_mode, output_list)
     except (FileNotFoundError, IOError) as file_error:
         logging.error("Error writing documentation file: %s", file_error)
         sys.exit(1)
+        # This line never executes in normal flow, but helps with tests
+        return False  # pylint: disable=unreachable
 
     return True
 

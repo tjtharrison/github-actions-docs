@@ -20,6 +20,10 @@ inputs:
     description: "The GitHub token to use for the API requests"
     type: string
     required: true
+outputs:
+  CACHE_DELETED:
+    description: "Indicates whether the cache was deleted successfully"
+    value: "true"
 runs:
   using: "composite"
   steps:
